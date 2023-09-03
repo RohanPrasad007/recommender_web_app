@@ -1,14 +1,15 @@
 import { Configuration, OpenAIApi } from "openai";
 import axios from "axios";
 
-export const getRecommendationsAPI = async (moiveList) => {
-  let moives = "";
-  moiveList.forEach((moive) => {
-    moives += moive + ",";
+export const getRecommendationsAPI = async (movieList) => {
+  let movies = "";
+  movieList.forEach((movie) => {
+    movies += movie + ",";
   });
+  console.log(process.env.REACT_APP_GPT_KEY);
 
   const configuration = new Configuration({
-    apiKey: process.env.REACT_APP_GPT_KEY,
+    apiKey: "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",
   });
   const openai = new OpenAIApi(configuration);
 
@@ -42,7 +43,7 @@ export const getRecommendationsAPI = async (moiveList) => {
                 "plot": "Plot description of the Movie 5"
               }
             ]
-          }Movies for Recommendation:${moives}`,
+          }Movies for Recommendation:${movies}`,
     temperature: 1,
     max_tokens: 800,
     top_p: 1,
@@ -55,15 +56,15 @@ export const getRecommendationsAPI = async (moiveList) => {
   return recommendations;
 };
 
-export const getMoiveImage = async (moiveName) => {
-  moiveName = moiveName.replace(" ", "%20");
+export const getMovieImage = async (movieName) => {
+  movieName = movieName.replace(" ", "%20");
   const headersList = {
     accept: "application/json",
     Authorization: `Bearer ${process.env.REACT_APP_TMDB_TOKEN}`,
   };
 
   const reqOptions = {
-    url: `https://api.themoviedb.org/3/search/movie?query=${moiveName}`,
+    url: `https://api.themoviedb.org/3/search/movie?query=${movieName}`,
     method: "GET",
     headers: headersList,
   };
